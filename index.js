@@ -4,6 +4,7 @@ var app = express()
 var port = 3000
 const fs = require('fs');
 
+const password = "russiandonkey"
 
 app.set('view engine', 'pug')
 // respond with "hello world" when a GET request is made to the homepage
@@ -29,7 +30,7 @@ app.get('/snake/:type/', (req, res) => {
 app.get('/secret/tellme', (req, res) => {
     try {
         var apikey = req.query.apikey
-        if (apikey === 'russiandonkey') {
+        if (apikey === password) {
             var logline = '\nINFO: User identified with api key ' + apikey + ' ' + Date.now() 
             console.log(logline)
             // write to a new file named 2pac.txt
@@ -43,9 +44,9 @@ app.get('/secret/tellme', (req, res) => {
             })
             res.send('Diana was really a vampire.')
         } else {
-            var logline = '\nERROR: User tried to use invalid api key: ' + apikey + ' ' + Date.now()
-            console.log(logline)
-            fs.appendFileSync('logfile.txt', logline + '\n', (err) => {
+            var logline_error = '\nERROR: User tried to use invalid api key: ' + apikey + ' ' + Date.now()
+            console.log(logline_error)
+            fs.appendFileSync('logfile.txt', logline_error + '\n', (err) => {
                 // throws an error, you could also catch it here
                 if (err) {
                     console.log('Could not write api key to disk!')
