@@ -4,11 +4,13 @@
   "description": "testbed for apis",
   "main": "index.js",
   "scripts": {
+    "sca": "dependency-check --project 'Restest' --scan .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@risingstack/protect": "^1.2.0",
     "express": "^4.17.1",
     "pug": "^2.0.4"
   }

@@ -13,10 +13,14 @@ app.get('/', function (req, res) {
 
 // Vuln demonstrated: verbose error message
 app.get('/snake/:type/', (req, res) => {
-    if (['cobra', 'python'].includes(req.params.type)) {
-        res.send('Snakes are sneaky sneakers!')
-    } else {
-        res.status(404).send('404 NOT FOUND: You did not supply a dangerous snake that can sneak into this web application. You have to use a cobra or a python to bypass the security troll.')
+    try {
+        if (['cobra', 'python'].includes(req.params.type)) {
+            res.send('Snakes are sneaky sneakers!')
+        } else {
+            res.status(404).send('404 NOT FOUND: You did not supply a dangerous snake that can sneak into this web application. You have to use a cobra or a python to bypass the security troll.')
+        }
+    } catch (error) {
+        res.status(500).send(error)
     }
 })
 
@@ -26,7 +30,7 @@ app.get('/secret/tellme', (req, res) => {
     try {
         var apikey = req.query.apikey
         if (apikey === 'russiandonkey') {
-            var logline = 'INFO: User identified with api key ' + apikey 
+            var logline = '\nINFO: User identified with api key ' + apikey + ' ' + Date.now() 
             console.log(logline)
             // write to a new file named 2pac.txt
             fs.appendFileSync('logfile.txt', logline, (err) => {
@@ -39,7 +43,7 @@ app.get('/secret/tellme', (req, res) => {
             })
             res.send('Diana was really a vampire.')
         } else {
-            var logline = 'ERROR: User tried to use invalid api key: ' + apikey 
+            var logline = '\nERROR: User tried to use invalid api key: ' + apikey + ' ' + Date.now()
             console.log(logline)
             fs.appendFileSync('logfile.txt', logline + '\n', (err) => {
                 // throws an error, you could also catch it here
@@ -70,7 +74,7 @@ app.get('/insecure/:code/', (req, res) => {
 // Unprotected insecure log viewer
 app.get('/logs', (req, res) => {
     var mydata = fs.readFileSync('logfile.txt', {'encoding': 'utf-8'})
-    res.render('logs', {'thisisfine': mydata})
+    res.render('logs', {'thisisfine': mydata.replace(/\n/g, '<br>')})
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
