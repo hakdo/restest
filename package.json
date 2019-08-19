@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "sca": "dependency-check --project 'Restest' --scan .",
-    "test": "mocha --exit"
+    "test": "mocha --exit",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
